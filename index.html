@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💓</title>
+    <!-- Imports a beautiful, elegant serif font -->
+    <link href="https://googleapis.com" rel="family">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #FFF0F5; /* Soft lavender blush pink */
+            font-family: "Playfair Display", serif;
+        }
+
+        .title {
+            color: #FFB6C1; /* Light pink font */
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Container to build the heart shape out of two circles and a square */
+        .heart-btn {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background-color: #FFB6C1; /* Main light pink color */
+            border: 6px solid #FFFFFF; /* Crisp white border */
+            transform: rotate(-45deg);
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.5);
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+            outline: none;
+            margin-top: -20px;
+        }
+
+        .heart-btn::before,
+        .heart-btn::after {
+            content: "";
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background-color: #FFB6C1;
+            border-radius: 50%;
+        }
+
+        /* Left round hump of the heart */
+        .heart-btn::before {
+            top: -76px;
+            left: -6px;
+            border-top: 6px solid #FFFFFF;
+            border-left: 6px solid #FFFFFF;
+            border-right: 6px solid #FFFFFF;
+        }
+
+        /* Top round hump of the heart */
+        .heart-btn::after {
+            top: -6px;
+            left: 70px;
+            border-top: 6px solid #FFFFFF;
+            border-right: 6px solid #FFFFFF;
+            border-bottom: 6px solid #FFFFFF;
+        }
+
+        /* Animation styling when you press down on the heart */
+        .heart-btn:active {
+            transform: rotate(-45deg) scale(0.92);
+            box-shadow: 0 5px 10px rgba(255, 182, 193, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="title">send love</div>
+    
+    <!-- Tapping the heart shapes triggers the function -->
+    <button class="heart-btn" onclick="sendPing()"></button>
+
+    <script>
+        function sendPing() {
+            // PASTE YOUR EXACT PUSHOVER KEYS HERE
+            const apiToken = "a25gmaqyz1fujrnb4c9mvkx8eoeo7v"; 
+            const groupKey = "gof5j2ds3nir12favu8dy6dyshmx51"; 
+
+            const data = new URLSearchParams();
+            data.append("token", apiToken);
+            data.append("user", groupKey);
+            data.append("message", "🌸 Front has been updated! 💓");
+
+            fetch("https://pushover.net", {
+                method: "POST",
+                body: data
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Soft, non-intrusive log confirmation
+                    console.log("Ping sent beautifully!");
+                } else {
+                    alert("Oops, something went wrong.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Network error.");
+            });
+        }
+    </script>
+</body>
+</html>
