@@ -75,23 +75,42 @@
 </head>
 <body>
 
-    <div class="title">send love</div>
-    
-    <iframe name="hidden-frame" id="hidden-frame"></iframe>
 
-    <!-- THE DATA PACK: Carefully look at the value="" lines below -->
-    <form id="love-form" action="https://api.pushover.net/1/messages.json" method="POST" target="hidden-frame">
-        <input type="hidden" name="token" value="a25gmaqyz1fujrnb4c9mvkx8eoeo7v">
-        <input type="hidden" name="user" value="gof5j2ds3nir12favu8dy6dyshmx51">
-        <input type="hidden" name="message" value="🌸 Front Updated! 💓">
-    </form>
-
+    <!-- 1. REMOVE THE OLD FORM AND IFRAME COMPLETELY -->
+    <!-- 2. KEEP YOUR ORIGINAL HEART BUTTON -->
     <button class="heart-btn" onclick="triggerPing()"></button>
 
     <script>
         function triggerPing() {
-            document.getElementById("love-form").submit();
-            alert("Ping sent beautifully! 💕");
+            // Define your real keys here securely
+            const apiToken = "a25gmaqyz1fujrnb4c9mvkx8eoeo7v";
+            const userOrGroupKey = "gof5j2ds3nir12favu8dy6dyshmx51";
+            const messageText = "🌸 Front Updated! 💓";
+
+            // Prepare the payload parameters exactly how Pushover likes it
+            const params = new URLSearchParams();
+            params.append("token", apiToken);
+            params.append("user", userOrGroupKey);
+            params.append("message", messageText);
+
+            // Fire the request directly into the background
+            fetch("https://api.pushover.net/1/messages.json", {
+                method: "POST",
+                body: params,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                mode: "no-cors" // Crucial: Tells the browser not to block the response
+            })
+            .then(() => {
+                // Because of 'no-cors', the browser can't "read" the success message,
+                // but the network request still successfully hits Pushover's servers.
+                alert("Ping sent beautifully! 💕");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Something went wrong sending the love. 😢");
+            });
         }
     </script>
 </body>
