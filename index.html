@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💓</title>
-    <!-- Imports a beautiful, elegant serif font -->
-    <link href="https://googleapis.com" rel="family">
     <style>
         body {
             display: flex;
@@ -14,30 +12,28 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #FFF0F5; /* Soft lavender blush pink */
-            font-family: "Playfair Display", serif;
+            background-color: #FFF0F5;
+            font-family: sans-serif;
         }
 
         .title {
-            color: #FFB6C1; /* Light pink font */
+            color: #FFB6C1;
             font-size: 28px;
             font-weight: 500;
             margin-bottom: 40px;
             letter-spacing: 2px;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
         }
 
-        /* Container to build the heart shape out of two circles and a square */
         .heart-btn {
             position: relative;
             width: 140px;
             height: 140px;
-            background-color: #FFB6C1; /* Main light pink color */
-            border: 6px solid #FFFFFF; /* Crisp white border */
+            background-color: #FFB6C1;
+            border: 6px solid #FFFFFF;
             transform: rotate(-45deg);
             cursor: pointer;
             box-shadow: 0 10px 25px rgba(255, 182, 193, 0.5);
-            transition: transform 0.1s ease, box-shadow 0.2s ease;
+            transition: transform 0.1s ease;
             outline: none;
             margin-top: -20px;
         }
@@ -52,7 +48,6 @@
             border-radius: 50%;
         }
 
-        /* Left round hump of the heart */
         .heart-btn::before {
             top: -76px;
             left: -6px;
@@ -61,7 +56,6 @@
             border-right: 6px solid #FFFFFF;
         }
 
-        /* Top round hump of the heart */
         .heart-btn::after {
             top: -6px;
             left: 70px;
@@ -70,10 +64,12 @@
             border-bottom: 6px solid #FFFFFF;
         }
 
-        /* Animation styling when you press down on the heart */
         .heart-btn:active {
             transform: rotate(-45deg) scale(0.92);
-            box-shadow: 0 5px 10px rgba(255, 182, 193, 0.3);
+        }
+
+        #hidden-frame {
+            display: none;
         }
     </style>
 </head>
@@ -81,32 +77,21 @@
 
     <div class="title">send love</div>
     
-    <!-- Tapping the heart shapes triggers the function -->
-    <button class="heart-btn" onclick="sendPing()"></button>
+    <iframe name="hidden-frame" id="hidden-frame"></iframe>
+
+    <!-- THE DATA PACK: Carefully look at the value="" lines below -->
+    <form id="love-form" action="https://pushover.net" method="POST" target="hidden-frame">
+        <input type="hidden" name="token" value="a25gmaqyz1fujrnb4c9mvkx8eoeo7v">
+        <input type="hidden" name="user" value="gof5j2ds3nir12favu8dy6dyshmx51">
+        <input type="hidden" name="message" value="🌸 Front Updated! 💓">
+    </form>
+
+    <button class="heart-btn" onclick="triggerPing()"></button>
 
     <script>
-        function sendPing() {
-            const apiToken = "a25gmaqyz1fujrnb4c9mvkx8eoeo7v"; 
-            const groupKey = "gof5j2ds3nir12favu8dy6dyshmx51"; 
-
-            const formData = new FormData();
-            formData.append("token", apiToken);
-            formData.append("user", groupKey);
-            formData.append("message", "🌸 Front Updated! 💓");
-
-            fetch("https://pushover.net", {
-                method: "POST",
-                body: formData,
-                mode: "no-cors" // Forces Safari to completely ignore the network error!
-            })
-            .then(() => {
-                // System jumps straight to success layout display
-                alert("Ping sent beautifully! 💕");
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Network error.");
-            });
+        function triggerPing() {
+            document.getElementById("love-form").submit();
+            alert("Ping sent beautifully! 💕");
         }
     </script>
 </body>
